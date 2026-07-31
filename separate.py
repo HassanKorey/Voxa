@@ -15,7 +15,9 @@ def extract_vocals(audio_file):
 if __name__ == "__main__":
     import sys
     from demucs.api import save_audio
-
+    if len(sys.argv) < 2:
+        print("Usage: python3 separate.py <audio_file>")
+        sys.exit(1)
     audio_file = sys.argv[1]  # takes filename from command line, e.g. python separate.py test.mp3
     vocals, samplerate = extract_vocals(audio_file)
     name = os.path.splitext(os.path.basename(audio_file))[0]
