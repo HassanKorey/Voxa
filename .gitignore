@@ -1,0 +1,9 @@
+# Virtual environment
+venv/
+
+# Demucs output
+separated/
+
+# Test audio files
+*.mp3
+*.wav
