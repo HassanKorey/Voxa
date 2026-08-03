@@ -44,6 +44,7 @@ if __name__ == "__main__":
         audio_output = vidname + "_Audio.wav"
         output = extract_audio_from_video(input_file, audio_output)
         vocals,samplerate = extract_vocals(output)
+        os.remove(output)
         output_name = vidname + "_vocals.wav"
         save_audio(vocals,output_name,samplerate)
         print(f"saved vocals as {output_name}")
