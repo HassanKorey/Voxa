@@ -39,7 +39,7 @@ if __name__ == "__main__":
         print(f"Saved vocals to: {name}_Vocals.wav")
 
     # Check if the file is a video
-    elif os.path.splitext(os.path.basename(input_file))[1] in [".mp4",".avi","mkv","webm"]:
+    elif os.path.splitext(os.path.basename(input_file))[1] in [".mp4",".avi",".mkv",".webm"]:
         vidname = os.path.splitext(os.path.basename(input_file))[0]
         audio_output = vidname + "_Audio.wav"
         output = extract_audio_from_video(input_file, audio_output)
