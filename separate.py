@@ -19,7 +19,7 @@ def extract_audio_from_video(video_file, audio_output):
         "ffmpeg", "-i", video_file,
         "-vn", "-acodec", "pcm_s16le", "-ar", "44100",
         audio_output
-    ])
+    ], check=True)
     return audio_output
 
 def add_audio_to_video(video_file, vocals_audio, output_video):
@@ -27,7 +27,7 @@ def add_audio_to_video(video_file, vocals_audio, output_video):
         "ffmpeg", "-i", video_file, "-i", vocals_audio,
         "-c:v", "copy", "-map", "0:v:0", "-map", "1:a:0",
         output_video
-    ])
+    ], check=True)
     return output_video
 
 if __name__ == "__main__":
@@ -37,9 +37,11 @@ if __name__ == "__main__":
         print("Usage: python3 separate.py <audio_file>")
         sys.exit(1)
     
-    
     input_file = sys.argv[1]  # takes filename from command line, e.g. python separate.py test.mp3
-
+    
+    if not os.path.exists(input_file):
+        print("Error: input file does not exist.")
+        sys.exit(1)
     if os.path.splitext(os.path.basename(input_file))[1] in [".mp3", ".wav",".flac", ".m4a", ".ogg"]:
         vocals, samplerate = extract_vocals(input_file)
         name = os.path.splitext(os.path.basename(input_file))[0]
@@ -48,6 +50,7 @@ if __name__ == "__main__":
 
     # Check if the file is a video
     elif os.path.splitext(os.path.basename(input_file))[1] in [".mp4",".avi",".mkv",".webm"]:
+      try:
         vidname = os.path.splitext(os.path.basename(input_file))[0]
         audio_output = vidname + "_Audio.wav"
         output = extract_audio_from_video(input_file, audio_output)
@@ -59,5 +62,8 @@ if __name__ == "__main__":
         video_output_file = add_audio_to_video(input_file, output_name,  vid_output_name)
         os.remove(output_name)
         print(f"Saved Video as {video_output_file}")
+      except subprocess.CalledProcessError:
+        print("Error: Invalid/corrupted video/audio file.")
+        sys.exit(1)
     else:
-        print("NOT A VIDEO/AUDIO FILE")
+        print("Error: Input a video/audio file.")
