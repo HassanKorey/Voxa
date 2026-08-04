@@ -32,6 +32,7 @@ def add_audio_to_video(video_file, vocals_audio, output_video):
 
 if __name__ == "__main__":
     import sys
+    import demucs.api
     from demucs.api import save_audio
     if len(sys.argv) < 2:
         print("Usage: python3 separate.py <audio_file>")
@@ -43,10 +44,14 @@ if __name__ == "__main__":
         print("Error: input file does not exist.")
         sys.exit(1)
     if os.path.splitext(os.path.basename(input_file))[1] in [".mp3", ".wav",".flac", ".m4a", ".ogg"]:
+       try:
         vocals, samplerate = extract_vocals(input_file)
         name = os.path.splitext(os.path.basename(input_file))[0]
         save_audio(vocals, name+"_Vocals.wav", samplerate)
         print(f"Saved vocals to: {name}_Vocals.wav")
+       except demucs.api.LoadAudioError:
+        print(f"Error: Invalid/Corrupted file")
+        sys.exit(1)
 
     # Check if the file is a video
     elif os.path.splitext(os.path.basename(input_file))[1] in [".mp4",".avi",".mkv",".webm"]:
@@ -54,7 +59,7 @@ if __name__ == "__main__":
         vidname = os.path.splitext(os.path.basename(input_file))[0]
         audio_output = vidname + "_Audio.wav"
         output = extract_audio_from_video(input_file, audio_output)
-        vocals,samplerate = extract_vocals(output)
+        vocals,samplerate = extract_vocals(output)  
         os.remove(output)
         output_name = vidname + "_vocals.wav"
         save_audio(vocals,output_name,samplerate)
@@ -62,7 +67,7 @@ if __name__ == "__main__":
         video_output_file = add_audio_to_video(input_file, output_name,  vid_output_name)
         os.remove(output_name)
         print(f"Saved Video as {video_output_file}")
-      except subprocess.CalledProcessError:
+      except (demucs.api.LoadAudioError, subprocess.CalledProcessError):
         print("Error: Invalid/corrupted video/audio file.")
         sys.exit(1)
     else:
