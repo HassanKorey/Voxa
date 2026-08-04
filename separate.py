@@ -22,6 +22,14 @@ def extract_audio_from_video(video_file, audio_output):
     ])
     return audio_output
 
+def add_audio_to_video(video_file, vocals_audio, output_video):
+    subprocess.run([
+        "ffmpeg", "-i", video_file, "-i", vocals_audio,
+        "-c:v", "copy", "-map", "0:v:0", "-map", "1:a:0",
+        output_video
+    ])
+    return output_video
+
 if __name__ == "__main__":
     import sys
     from demucs.api import save_audio
@@ -47,6 +55,9 @@ if __name__ == "__main__":
         os.remove(output)
         output_name = vidname + "_vocals.wav"
         save_audio(vocals,output_name,samplerate)
-        print(f"saved vocals as {output_name}")
+        vid_output_name = vidname + "_vocalised.mp4"
+        video_output_file = add_audio_to_video(input_file, output_name,  vid_output_name)
+        os.remove(output_name)
+        print(f"Saved Video as {video_output_file}")
     else:
         print("NOT A VIDEO/AUDIO FILE")
