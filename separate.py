@@ -1,6 +1,7 @@
 import os
 from demucs.api import Separator 
-
+from demucs.api import save_audio
+import demucs.api
 
 
 def extract_vocals(audio_file):
@@ -32,8 +33,7 @@ def add_audio_to_video(video_file, vocals_audio, output_video):
 
 if __name__ == "__main__":
     import sys
-    import demucs.api
-    from demucs.api import save_audio
+    
     if len(sys.argv) < 2:
         print("Usage: python3 separate.py <audio_file>")
         sys.exit(1)
