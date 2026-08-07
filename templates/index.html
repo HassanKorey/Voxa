@@ -4,56 +4,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocaliser</title>
+    <title>Vocal Isolation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #12211F;
+            --ink-soft: #1B322D;
+            --paper: #F7F1E4;
+            --paper-dim: #EDE5D2;
+            --gold: #C08A3E;
+            --sage: #6FA890;
+            --text-light: #EDEAE0;
+            --text-muted: #9FB0AB;
+            --text-ink: #16241F;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--ink);
+            color: var(--text-light);
+            font-family: 'IBM Plex Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        main {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 72px 24px 96px;
+        }
+
+        .eyebrow {
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--sage);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 500;
+            font-size: clamp(32px, 6vw, 48px);
+            line-height: 1.15;
+            margin: 0 0 16px;
+            color: var(--text-light);
+        }
+
+        .subtext {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 46ch;
+            margin: 0 0 48px;
+        }
+
+        /* Signature waveform: two lines diverge, gold fades, sage stays vivid */
+        .waveform {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-bottom: 56px;
+        }
+
+        .wave-gold {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2;
+            stroke-linecap: round;
+            opacity: 0.35;
+        }
+
+        .wave-sage {
+            fill: none;
+            stroke: var(--sage);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+
+            .wave-gold,
+            .wave-sage {
+                stroke-dasharray: 600;
+                stroke-dashoffset: 600;
+                animation: draw 1.4s ease-out forwards;
+            }
+
+            .wave-sage {
+                animation-delay: 0.15s;
+            }
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .card {
+            background: var(--paper);
+            color: var(--text-ink);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .dropzone {
+            border: 1.5px dashed #B8AD8F;
+            border-radius: 10px;
+            padding: 32px 20px;
+            text-align: center;
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .dropzone.dragover {
+            border-color: var(--gold);
+            background: var(--paper-dim);
+        }
+
+        .dropzone p {
+            margin: 0 0 16px;
+            font-size: 14px;
+            color: #5C5546;
+        }
+
+        input[type="file"] {
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px 20px;
+            background: var(--gold);
+            color: #2B1B08;
+            border: none;
+            border-radius: 8px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        button:hover {
+            background: #A8763A;
+        }
+
+        button:focus-visible {
+            outline: 2px solid var(--ink-soft);
+            outline-offset: 2px;
+        }
+
+        button:disabled {
+            background: #C9BFA5;
+            color: #6b6252;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #5C5546;
+            min-height: 20px;
+        }
+
+        #status.error {
+            color: #9A3B2E;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Remove Musical Instruments From your Audio or Video</h1>
-    <form id="uploadForm">
-        <input type="file" id="fileInput" accept=".mp3,.wav,.flac,.m4a,.ogg,.mp4,.avi,.mkv,.webm">
-        <br>
-        <hr>
-        <button type="submit">Upload and Process</button>
-    </form>
-    <p id="status"></p>
+    <main>
+        <p class="eyebrow">Vocal isolation</p>
+        <h1>Keep the voice. Lift out the music.</h1>
+        <p class="subtext">
+            Upload a video or audio file and get back a version with instrumental
+            music removed, vocals and speech intact.
+        </p>
+
+        <svg class="waveform" viewBox="0 0 560 80" role="img"
+            aria-label="A single waveform splitting into two: one fading, one staying clear">
+            <path class="wave-gold"
+                d="M0,40 C40,10 80,70 120,40 S200,10 240,40 S320,70 360,40 S440,10 480,40 S540,60 560,40" />
+            <path class="wave-sage"
+                d="M0,40 C40,55 80,25 120,40 S200,55 240,40 S320,25 360,40 S440,55 480,40 S540,30 560,40" />
+        </svg>
+
+        <div class="card">
+            <form id="uploadForm">
+                <div class="dropzone">
+                    <p>MP3, WAV, FLAC, M4A, OGG, MP4, AVI, MKV, or WEBM</p>
+                    <input type="file" id="fileInput" accept=".mp3,.wav,.flac,.m4a,.ogg,.mp4,.avi,.mkv,.webm">
+                </div>
+                <button type="submit" id="submitBtn">Remove Music</button>
+            </form>
+            <p id="status"></p>
+        </div>
+    </main>
+
     <script>
-document.getElementById("uploadForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+        document.getElementById("uploadForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
 
-    const fileInput = document.getElementById("fileInput");
-    const statusEl = document.getElementById("status");
+            const fileInput = document.getElementById("fileInput");
+            const statusEl = document.getElementById("status");
+            const submitBtn = document.getElementById("submitBtn");
 
-    if (fileInput.files.length === 0) {
-        statusEl.textContent = "Please select a file first.";
-        return;
-    }
+            statusEl.classList.remove("error");
 
-    const file = fileInput.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
+            if (fileInput.files.length === 0) {
+                statusEl.textContent = "Please select a file first.";
+                statusEl.classList.add("error");
+                return;
+            }
 
-    statusEl.textContent = "Processing... this may take a few minutes.";
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
 
-    const response = await fetch("/separate", {
-        method: "POST",
-        body: formData
-    });
+            submitBtn.disabled = true;
+            statusEl.textContent = "Processing... this may take a few minutes.";
 
-    if (!response.ok) {
-        statusEl.textContent = "Error: something went wrong.";
-        return;
-    }
+            try {
+                const response = await fetch("/separate", {
+                    method: "POST",
+                    body: formData
+                });
 
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "vocals_output" + (file.name.includes(".mp4") ? ".mp4" : ".wav");
-    a.click();
+                if (!response.ok) {
+                    statusEl.textContent = "Error: something went wrong.";
+                    statusEl.classList.add("error");
+                    submitBtn.disabled = false;
+                    return;
+                }
 
-    statusEl.textContent = "Done! Check your downloads.";
-});
-</script>
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "vocals_output" + (file.name.toLowerCase().includes(".mp4") ? ".mp4" : ".wav");
+                a.click();
+
+                statusEl.textContent = "Done! Check your downloads.";
+            } catch (err) {
+                statusEl.textContent = "Error: could not reach the server.";
+                statusEl.classList.add("error");
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+    <div style="text-align: center;font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 80ch;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);">
+        <p style="font-size: 16px"><span style="color: #A8763A;">Notice: </span>This app uses Meta's Demucs model for AI-powered vocal separation. <br>Processing times may vary based on file size and server load.</p>
+        <p style=" color: var(--text-light);">© HassanKorey 2026.</p>
+    </div>
 </body>
 
 </html>
