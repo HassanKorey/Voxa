@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocaliser</title>
+</head>
+
+<body>
+    <h1>Remove Musical Instruments From your Audio or Video</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" accept=".mp3,.wav,.flac,.m4a,.ogg,.mp4,.avi,.mkv,.webm">
+        <br>
+        <hr>
+        <button type="submit">Upload and Process</button>
+    </form>
+    <p id="status"></p>
+    <script>
+document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const fileInput = document.getElementById("fileInput");
+    const statusEl = document.getElementById("status");
+
+    if (fileInput.files.length === 0) {
+        statusEl.textContent = "Please select a file first.";
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    statusEl.textContent = "Processing... this may take a few minutes.";
+
+    const response = await fetch("/separate", {
+        method: "POST",
+        body: formData
+    });
+
+    if (!response.ok) {
+        statusEl.textContent = "Error: something went wrong.";
+        return;
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "vocals_output" + (file.name.includes(".mp4") ? ".mp4" : ".wav");
+    a.click();
+
+    statusEl.textContent = "Done! Check your downloads.";
+});
+</script>
+</body>
+
+</html>
