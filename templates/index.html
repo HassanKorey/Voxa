@@ -181,6 +181,78 @@
         #status.error {
             color: #9A3B2E;
         }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feedback-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .feedback-row > input {
+            flex: 1;
+        }
+
+        .feedback-row textarea {
+            flex: 1;
+            min-height: 46px; /* slightly taller than input */
+            resize: vertical;
+        }
+
+        .feedback-form input[type="text"],
+        .feedback-form input[type="email"],
+        .feedback-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--ink-soft);
+            border: 1px solid transparent;
+            color: var(--text-light);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .feedback-form input::placeholder,
+        .feedback-form textarea::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        .feedback-form input:focus,
+        .feedback-form textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: var(--ink);
+        }
+
+        .btn-secondary {
+            padding: 12px 20px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(192, 138, 62, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .feedback-row {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 
@@ -210,6 +282,28 @@
                 <button type="submit" id="submitBtn">Remove Music</button>
             </form>
             <p id="status"></p>
+        </div>
+
+        <div style="margin-top: 64px; border-top: 1px dashed var(--ink-soft); padding-top: 32px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+                <h2 style="font-size: 16px; color: var(--text-light); margin: 0; font-weight: 500; letter-spacing: 0.02em;">Feedback</h2>
+                <span style="font-size: 13px; color: var(--text-muted);">We'd love to hear your thoughts.</span>
+            </div>
+            
+            <form class="feedback-form" action="https://formsubmit.co/edunhassan1006@gmail.com" method="POST">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div class="feedback-row">
+                    <input type="text" name="name" required placeholder="Name" aria-label="Name">
+                    <input type="email" name="email" required placeholder="Email" aria-label="Email">
+                </div>
+                
+                <div class="feedback-row">
+                    <textarea name="message" required placeholder="Your message..." aria-label="Message" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn-secondary">Send Feedback</button>
+            </form>
         </div>
     </main>
 
