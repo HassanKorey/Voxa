@@ -1,0 +1,5 @@
+Flask
+demucs
+torch
+torchaudio
+gunicorn
