@@ -264,6 +264,26 @@
                 submitBtn.disabled = false;
             }
         });
+
+            const dropzone = document.querySelector(".dropzone");
+
+            dropzone.addEventListener("dragover", function(event) {
+                event.preventDefault();
+                dropzone.classList.add("dragover");
+            });
+
+            dropzone.addEventListener("dragleave", function() {
+                dropzone.classList.remove("dragover");
+            });
+
+            dropzone.addEventListener("drop", function(event) {
+                event.preventDefault();
+                dropzone.classList.remove("dragover");
+
+                if (event.dataTransfer.files.length > 0) {
+                    fileInput.files = event.dataTransfer.files;
+                }
+            });
     </script>
     <div style="text-align: center;font-size: 16px;
             line-height: 1.6;
