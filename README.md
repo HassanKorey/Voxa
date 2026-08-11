@@ -50,7 +50,7 @@ Because this application runs heavy machine learning models, it is designed to b
 1. **Clone the repository**
    ```bash
    git clone https://github.com/HassanKorey/Voxa.git
-   cd Vocalizer
+   cd Audio Filterer
    ```
 
 2. **Create a virtual environment (Recommended)**
