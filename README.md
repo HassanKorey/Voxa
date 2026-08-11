@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🎙️ Vocalizer</h1>
+  <h1>🎙️ Voxa</h1>
   <p><strong>Keep the voice. Lift out the music.</strong></p>
   <p>A beautifully designed, AI-powered web application that perfectly isolates vocals from any audio or video file.</p>
 </div>
