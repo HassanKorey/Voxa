@@ -1,20 +1,15 @@
 <div align="center">
   <h1>🎙️ Voxa</h1>
   <p><strong>Keep the voice. Lift out the music.</strong></p>
-  <p>A beautifully designed, AI-powered web application that perfectly isolates vocals from any audio or video file.</p>
+  <p>An AI-powered application that isolates vocals from any audio or video file.</p>
 </div>
 
 ---
 
-> **Note:** A placeholder for your demo video or screenshot goes here! 
-> *(Record a screen capture of you dragging a file in, processing it, and playing the result!)*
-> `![App Demo](link-to-your-gif-or-image.gif)`
-
----
 
 ## 🌟 About The Project
 
-Vocalizer is a sophisticated audio processing tool wrapped in a sleek, premium, dark-mode user interface. Built with Python and Flask, it leverages Meta's state-of-the-art **Demucs** deep learning model to perform high-quality audio source separation. 
+Voxa is a sophisticated audio processing tool wrapped in a sleek, premium, dark-mode user interface. Built with Python and Flask, it leverages Meta's state-of-the-art **Demucs** deep learning model to perform high-quality audio source separation. 
 
 Whether you upload an MP3 song or an MP4 video clip, Vocalizer intelligently strips away the instrumental backing tracks and returns a crystal-clear file containing only the isolated human vocals.
 
